@@ -1,2 +1,3 @@
 # Bilateral_Filter
-Bilateral Filter for images
+Bilateral Filter for images 
+Implamentaion in python
