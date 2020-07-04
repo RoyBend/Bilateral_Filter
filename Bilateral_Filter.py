@@ -1,17 +1,13 @@
 import numpy as np
 import cv2
 import sys
-# from joblib import Parallel, delayed
-#  import multiprocessing as mp
-# from threading import Thread
 
-
+# Globals
 gaussian_distance_table = None
 gaussian_rangeDiff_table = np.zeros(256)
 RED = 0
 GREEN = 1
 BLUE = 2
-
 
 
 def euclidean_distance(x1, y1, x2, y2):
@@ -51,7 +47,6 @@ def apply_filter_grayscale(source_matrix, x, y, sig_domain, sig_range, radius): 
     return int(round(filtered_pixel_i))
 
 
-
 def apply_filter_color(source_matrix, x, y, sig_domain, sig_range, radius, color):  #For a specific pixel
     total_weight = 0
     filtered_pixel_i = 0
@@ -83,20 +78,13 @@ def filter_matrix_grayscale(source_matrix, sig_dom, sig_range, rad):
 
 def filter_matrix_color(source_matrix, sig_dom, sig_range, rad):
     filtered_matrix = np.zeros(source_matrix.shape)
-    # Step 1: Init multiprocessing.Pool()
-    # pool = mp.Pool(mp.cpu_count())
 
     for color in range(3):
         for i in range(filtered_matrix.shape[0]):
             print("Row #" + str(i) + " out of " + str(filtered_matrix.shape[0]))
             for j in range(filtered_matrix.shape[1]):
                 filtered_matrix[i][j][color] = apply_filter_color(source_matrix, i, j, sig_dom, sig_range, rad, color)
-                # t = Thread(target=apply_filter_color, args=(filtered_matrix, source_matrix, i, j, sig_dom, sig_range, rad, color))
-                # t.start()
-            #[pool.apply(apply_filter_color, args=(filtered_matrix, source_matrix, i, j, sig_dom, sig_range, rad, color)) for j in range(filtered_matrix.shape[1])]
-                # results = [pool.apply(howmany_within_range, args=(row, 4, 8)) for row in data]
-    # Step 3: Don't forget to close
-    # pool.close()
+
     return filtered_matrix
 
 
@@ -110,7 +98,6 @@ def init_gaussian_tables(radius, sig_domain, sig_range):
     :return: void
     """
     size = radius+1
-    g = 2
     global gaussian_distance_table
     global gaussian_rangeDiff_table
     gaussian_distance_table = np.zeros([size, size])
